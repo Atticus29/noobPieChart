@@ -17,8 +17,8 @@
 <body>
   <script type="text/javascript">
 
-  var w = 300,                        //width
-  h = 300,                            //height
+  var w = 600,                        //width
+  h = 600,                            //height
   r = w/2,                            //radius
   color = d3.scale.category20c();     //builtin range of colors
 
@@ -35,7 +35,6 @@
     for (i = 0; i<uniques.length; i++){
       finalData.push({label: uniques[i], value: getCount(uniques[i], jitsData)});
     }
-    console.log(finalData);
     return finalData;
   }
 
@@ -78,9 +77,15 @@
     d.innerRadius = 0;
     d.outerRadius = r;
     return "translate(" + arc.centroid(d) + ")";        //this gives us a pair of coordinates like [50, 50]
-  })
-  .attr("text-anchor", "middle")                          //center the text on it's origin
-  .text(function(d, i) { return finalData[i].label; });        //get the label from our original data array
+    })
+    .style("font-size", function(d) {
+      console.log(d);
+      console.log(d.data.label.length);
+      // return Math.min(d.outerRadius/100, (d.outerRadius/d.data.label.length)) + "px";
+      return (d.outerRadius/(2*d.data.label.length)) + "px";
+    })
+    .attr("text-anchor", "middle")                          //center the text on it's origin
+    .text(function(d, i) { return finalData[i].label; });        //get the label from our original data array
 
   </script>
 </body>
